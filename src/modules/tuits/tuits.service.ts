@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Tuit } from './tuit.entity';
+import { CreateTuitDto } from '../dto/create-tuit.dto';
+import { UpdateTuitDto } from '../dto/update-tuit.dto';
 
 @Injectable()
 export class TuitsService {
@@ -24,14 +26,14 @@ export class TuitsService {
         return tuit;
     }
 
-    createTuit(message  : string){
+    createTuit({ message }  : CreateTuitDto){
         this.tuits.push({
             id : (this.tuits.length + 1).toString(),
             message : message,
         })
     }
 
-    updateTuit(id : string , message : string) : Tuit{
+    updateTuit(id : string ,  message  : string) : Tuit{
         //me traigo un tuit por id para posteriormente actualizarlo
         const tuit : Tuit = this.getTuit(id);
         //como esto se comparte por referencia se actualiza automaticamente

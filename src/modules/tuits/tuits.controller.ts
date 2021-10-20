@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
 import { TuitsService } from './tuits.service';
 import { Tuit } from './tuit.entity';
+import { CreateTuitDto } from '../dto/create-tuit.dto';
+import { UpdateTuitDto } from '../dto/update-tuit.dto';
 
 @Controller('tuits')
 export class TuitsController {
@@ -26,14 +28,17 @@ export class TuitsController {
     //indicamos al body que solo identifique el parametro de usuario
     @Post()
     //@HttpCode(HttpStatus.NO_CONTENT)
-    createTuits(@Body(`message`) message : string) : void{
+    createTuits(@Body() message : CreateTuitDto) : void{
+        console.log(message instanceof CreateTuitDto);
+        console.log(!(message instanceof CreateTuitDto));
+        
         return this.tuitService.createTuit(message);
     }
 
     //en el patch aparte del elemento a actualizar tambien tenemos que enviar los datos a actualizar
     @Patch(":id")
-    uptadeTuits(@Param('id') id : string , @Body() tuit) : Tuit {
-        return this.tuitService.updateTuit(id , "actualizando mensajje" );
+    uptadeTuits(@Param('id') id : string , @Body() tuit : UpdateTuitDto) : Tuit {
+        return this.tuitService.updateTuit(id , "Actualizamos estos datos" );
     }
 
     @Delete(":id")
